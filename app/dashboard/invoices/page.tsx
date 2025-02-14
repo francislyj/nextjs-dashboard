@@ -1,3 +1,4 @@
+import { Metadata } from 'next';
 import Pagination from '@/app/ui/invoices/pagination';
 import Search from '@/app/ui/search';
 import Table from '@/app/ui/invoices/table';
@@ -7,15 +8,17 @@ import { InvoicesTableSkeleton } from '@/app/ui/skeletons';
 import { Suspense } from 'react';
 import { fetchInvoicesPages } from '@/app/lib/data';
 
+
+
 export const metadata: Metadata = {
   title: 'Invoices啊啊啊啊',
 };
  
 export default async function Page(props: {
-  searchParams: {
+  searchParams: Promise<{
     query?: string;
     page?: string;
-  };
+  }>;
 }) {
   console.log("开始渲染 invoices Page 组件");
   const searchParams = await props.searchParams;
