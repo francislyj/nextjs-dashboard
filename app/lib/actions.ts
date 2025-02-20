@@ -11,29 +11,26 @@ export async function logout() {
 }
 
 
+
+
 export async function authenticate(
     prevState: string | undefined,
     formData: FormData,
-) {
+  ) {
     try {
-        await signIn('credentials', formData);
+      await signIn('credentials', formData);
     } catch (error) {
-        console.log("authenticate error:", error);
-        if (error instanceof AuthError) {
-            switch (error.type) {
-                case 'CredentialsSignin':
-                    return 'Invalid credentials.';
-                default:
-                    return 'Something went wrong.';
-            }
+      if (error instanceof AuthError) {
+        switch (error.type) {
+          case 'CredentialsSignin':
+            return 'Invalid credentials.';
+          default:
+            return 'Something went wrong.';
         }
-        // 如果是重定向错误，不需要抛出
-        if ((error as any)?.digest?.startsWith('NEXT_REDIRECT')) {
-            return null;  // 让重定向正常进行
-        }
-        throw error;
+      }
+      throw error;
     }
-}
+  }
 
 
 const sql = postgres(process.env.DATABASE_URL!, {ssl: 'require'});
